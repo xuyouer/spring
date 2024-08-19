@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ltd.xiaomizha.mapper.BanquetRoomsMapper">
+
+    <resultMap id="BaseResultMap" type="ltd.xiaomizha.bean.BanquetRooms">
+            <id property="rid" column="RID" jdbcType="INTEGER"/>
+            <result property="roomNumber" column="ROOM_NUMBER" jdbcType="VARCHAR"/>
+            <result property="roomName" column="ROOM_NAME" jdbcType="VARCHAR"/>
+            <result property="roomDescription" column="ROOM_DESCRIPTION" jdbcType="VARCHAR"/>
+            <result property="roomCapacity" column="ROOM_CAPACITY" jdbcType="INTEGER"/>
+            <result property="roomStatus" column="ROOM_STATUS" jdbcType="INTEGER"/>
+            <result property="createtime" column="CREATETIME" jdbcType="TIMESTAMP"/>
+            <result property="lastmodifytime" column="LASTMODIFYTIME" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        RID,ROOM_NUMBER,ROOM_NAME,
+        ROOM_DESCRIPTION,ROOM_CAPACITY,ROOM_STATUS,
+        CREATETIME,LASTMODIFYTIME
+    </sql>
+</mapper>

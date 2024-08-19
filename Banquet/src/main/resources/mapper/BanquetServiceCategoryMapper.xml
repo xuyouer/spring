@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ltd.xiaomizha.mapper.BanquetServiceCategoryMapper">
+
+    <resultMap id="BaseResultMap" type="ltd.xiaomizha.bean.BanquetServiceCategory">
+            <id property="sid" column="SID" jdbcType="INTEGER"/>
+            <result property="categoryName" column="CATEGORY_NAME" jdbcType="VARCHAR"/>
+            <result property="categoryDescription" column="CATEGORY_DESCRIPTION" jdbcType="VARCHAR"/>
+            <result property="createtime" column="CREATETIME" jdbcType="TIMESTAMP"/>
+            <result property="lastmodifytime" column="LASTMODIFYTIME" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        SID,CATEGORY_NAME,CATEGORY_DESCRIPTION,
+        CREATETIME,LASTMODIFYTIME
+    </sql>
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ltd.xiaomizha.mapper.UserRolesRelationMapper">
+
+    <resultMap id="BaseResultMap" type="ltd.xiaomizha.bean.UserRolesRelation">
+        <id property="id" column="ID" jdbcType="INTEGER"/>
+        <id property="uid" column="UID" jdbcType="INTEGER"/>
+        <id property="rid" column="RID" jdbcType="INTEGER"/>
+        <result property="createtime" column="CREATETIME" jdbcType="TIMESTAMP"/>
+        <result property="lastmodifytime" column="LASTMODIFYTIME" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID
+        ,UID,RID,
+        CREATETIME,LASTMODIFYTIME
+    </sql>
+
+    <insert id="addUserRolesRelation">
+        INSERT INTO `USER_ROLES_RELATION` (UID, RID)
+        VALUES (#{uid}, #{rid})
+    </insert>
+</mapper>

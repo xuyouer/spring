@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ltd.xiaomizha.mapper.UserDevicesMapper">
+
+    <resultMap id="BaseResultMap" type="ltd.xiaomizha.bean.UserDevices">
+        <id property="id" column="ID" jdbcType="INTEGER"/>
+        <result property="uid" column="UID" jdbcType="INTEGER"/>
+        <result property="deviceId" column="DEVICE_ID" jdbcType="VARCHAR"/>
+        <result property="deviceType" column="DEVICE_TYPE" jdbcType="VARCHAR"/>
+        <result property="deviceLoginMethod" column="DEVICE_LOGIN_METHOD" jdbcType="INTEGER"/>
+        <result property="deviceLoginIp" column="DEVICE_LOGIN_IP" jdbcType="VARCHAR"/>
+        <result property="deviceLastlogin" column="DEVICE_LASTLOGIN" jdbcType="TIMESTAMP"/>
+        <result property="createtime" column="CREATETIME" jdbcType="TIMESTAMP"/>
+        <result property="lastmodifytime" column="LASTMODIFYTIME" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID
+        ,UID,DEVICE_ID,
+        DEVICE_TYPE,DEVICE_LOGIN_METHOD,DEVICE_LOGIN_IP,
+        DEVICE_LASTLOGIN,CREATETIME,LASTMODIFYTIME
+    </sql>
+
+    <insert id="addUserDevices">
+        <trim prefix="INSERT INTO `USER_DEVICES` (" suffix=") VALUES (" suffixOverrides=",">
+            <if test="deviceId != null and deviceId != ''">DEVICE_ID,</if>
+            <if test="deviceType != null and deviceType != ''">DEVICE_TYPE,</if>
+            <if test="deviceLoginMethod != null and deviceLoginMethod != ''">DEVICE_LOGIN_METHOD,</if>
+            <if test="deviceLoginIp != null and deviceLoginIp != ''">DEVICE_LOGIN_IP,</if>
+            <if test="deviceLastlogin != null and deviceLastlogin != ''">DEVICE_LASTLOGIN,</if>
+            UID
+        </trim>
+        <trim suffix=")" suffixOverrides=",">
+            <if test="deviceId != null and deviceId != ''">#{deviceId},</if>
+            <if test="deviceType != null and deviceType != ''">#{deviceType},</if>
+            <if test="deviceLoginMethod != null and deviceLoginMethod != ''">#{deviceLoginMethod},</if>
+            <if test="deviceLoginIp != null and deviceLoginIp != ''">#{deviceLoginIp},</if>
+            <if test="deviceLastlogin != null and deviceLastlogin != ''">#{deviceLastlogin},</if>
+            #{uid}
+        </trim>
+    </insert>
+
+    <select id="getUserDevicesByUid" resultType="ltd.xiaomizha.bean.UserDevices">
+        SELECT *
+        FROM `USER_DEVICES`
+        WHERE `UID` = #{uid}
+    </select>
+
+</mapper>

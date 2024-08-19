@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ltd.xiaomizha.mapper.BanquetCustomersMapper">
+
+    <resultMap id="BaseResultMap" type="ltd.xiaomizha.bean.BanquetCustomers">
+            <id property="id" column="ID" jdbcType="INTEGER"/>
+            <id property="bid" column="BID" jdbcType="INTEGER"/>
+            <id property="uid" column="UID" jdbcType="INTEGER"/>
+            <result property="createtime" column="CREATETIME" jdbcType="TIMESTAMP"/>
+            <result property="lastmodifytime" column="LASTMODIFYTIME" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID,BID,UID,
+        CREATETIME,LASTMODIFYTIME
+    </sql>
+</mapper>

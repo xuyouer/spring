@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ltd.xiaomizha.mapper.UsersMapper">
+
+    <resultMap id="BaseResultMap" type="ltd.xiaomizha.bean.Users">
+        <id property="uid" column="UID" jdbcType="INTEGER"/>
+        <result property="username" column="USERNAME" jdbcType="VARCHAR"/>
+        <result property="password" column="PASSWORD" jdbcType="VARCHAR"/>
+        <result property="createtime" column="CREATETIME" jdbcType="TIMESTAMP"/>
+        <result property="lastmodifytime" column="LASTMODIFYTIME" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <resultMap id="UserRolesResultMap" type="ltd.xiaomizha.bean.UserRoles">
+        <id property="rid" column="RID" jdbcType="INTEGER"/>
+        <result property="roleName" column="ROLE_NAME" jdbcType="VARCHAR"/>
+        <result property="roleDescription" column="ROLE_DESCRIPTION" jdbcType="VARCHAR"/>
+        <result property="createtime" column="CREATETIME" jdbcType="TIMESTAMP"/>
+        <result property="lastmodifytime" column="LASTMODIFYTIME" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <resultMap id="UserRolesRelationResultMap" type="ltd.xiaomizha.bean.UserRolesRelation">
+        <id property="id" column="ID" jdbcType="INTEGER"/>
+        <id property="uid" column="UID" jdbcType="INTEGER"/>
+        <id property="rid" column="RID" jdbcType="INTEGER"/>
+        <result property="createtime" column="CREATETIME" jdbcType="TIMESTAMP"/>
+        <result property="lastmodifytime" column="LASTMODIFYTIME" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <resultMap id="UserRoleVoResultMap" type="ltd.xiaomizha.vo.UserRoleVo">
+        <association property="userRoles" javaType="ltd.xiaomizha.bean.UserRoles" resultMap="UserRolesResultMap"/>
+        <association property="userRolesRelation" javaType="ltd.xiaomizha.bean.UserRolesRelation"
+                     resultMap="UserRolesRelationResultMap"/>
+    </resultMap>
+
+    <resultMap id="UserVoResultMap" type="ltd.xiaomizha.vo.UserVo">
+        <!-- 用户信息 -->
+        <association property="users" javaType="ltd.xiaomizha.bean.Users">
+            <id property="uid" column="UID" jdbcType="INTEGER"/>
+            <result property="username" column="USERNAME" jdbcType="VARCHAR"/>
+            <result property="password" column="PASSWORD" jdbcType="VARCHAR"/>
+            <result property="createtime" column="CREATETIME" jdbcType="TIMESTAMP"/>
+            <result property="lastmodifytime" column="LASTMODIFYTIME" jdbcType="TIMESTAMP"/>
+        </association>
+        <!-- 用户详细信息 -->
+        <association property="userDetails" javaType="ltd.xiaomizha.bean.UserDetails">
+            <id property="id" column="ID" jdbcType="INTEGER"/>
+            <result property="uid" column="UID" jdbcType="INTEGER"/>
+            <result property="email" column="EMAIL" jdbcType="VARCHAR"/>
+            <result property="phone" column="PHONE" jdbcType="VARCHAR"/>
+            <result property="birth" column="BIRTH" jdbcType="DATE"/>
+            <result property="gender" column="GENDER" jdbcType="TINYINT"/>
+            <result property="ip" column="IP" jdbcType="VARCHAR"/>
+            <result property="createtime" column="CREATETIME" jdbcType="TIMESTAMP"/>
+            <result property="lastmodifytime" column="LASTMODIFYTIME" jdbcType="TIMESTAMP"/>
+        </association>
+        <!-- 用户身份 -->
+        <association property="userRoleVo" javaType="ltd.xiaomizha.vo.UserRoleVo"
+                     resultMap="UserRoleVoResultMap"/>
+        <!-- 用户实名认证 -->
+        <association property="userVerification" javaType="ltd.xiaomizha.bean.UserVerification">
+            <id property="id" column="ID" jdbcType="INTEGER"/>
+            <result property="uid" column="UID" jdbcType="INTEGER"/>
+            <result property="realName" column="REAL_NAME" jdbcType="VARCHAR"/>
+            <result property="idCard" column="ID_CARD" jdbcType="VARCHAR"/>
+            <result property="verified" column="VERIFIED" jdbcType="TINYINT"/>
+            <result property="verificationDate" column="VERIFICATION_DATE" jdbcType="TIMESTAMP"/>
+            <result property="createtime" column="CREATETIME" jdbcType="TIMESTAMP"/>
+            <result property="lastmodifytime" column="LASTMODIFYTIME" jdbcType="TIMESTAMP"/>
+        </association>
+        <!-- 用户登录设备 -->
+        <collection property="userDevicesList" ofType="ltd.xiaomizha.bean.UserDevices"
+                    select="ltd.xiaomizha.mapper.UserDevicesMapper.getUserDevicesByUid" column="UID"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        UID
+        ,USERNAME,PASSWORD,
+        CREATETIME,LASTMODIFYTIME
+    </sql>
+
+    <insert id="addUser">
+        INSERT INTO `USERS`(`UID`, `USERNAME`, `PASSWORD`)
+        VALUES (#{uid}, #{username}, #{password})
+    </insert>
+
+    <select id="getUserByUsernameAndPassword" resultType="ltd.xiaomizha.bean.Users">
+        SELECT *
+        FROM `USERS`
+        WHERE `USERNAME` = #{username}
+          AND `PASSWORD` = #{password}
+    </select>
+    <select id="getUserVoByParams" resultMap="UserVoResultMap">
+        SELECT u.*,
+        ud.*,
+        urr.*,
+        ur.*,
+        uv.*
+        FROM `USERS` u
+        LEFT JOIN `USER_DETAILS` ud ON u.UID = ud.UID
+        LEFT JOIN `USER_ROLES_RELATION` urr ON u.UID = urr.UID
+        LEFT JOIN `USER_ROLES` ur ON urr.RID = ur.RID
+        LEFT JOIN `USER_VERIFICATION` uv ON u.UID = uv.UID
+        <if test="params == null">
+            LIMIT 0
+        </if>
+        <if test="params != null">
+            <where>
+                <if test="params.uid != null">
+                    AND u.UID = #{params.uid}
+                </if>
+                <if test="params.username != null">
+                    AND u.USERNAME = #{params.username}
+                </if>
+                <if test="params.email != null">
+                    AND ud.EMAIL = #{params.email}
+                </if>
+                <if test="params.phone != null">
+                    AND ud.PHONE = #{params.phone}
+                </if>
+                <if test="params.idCard != null">
+                    AND uv.ID_CARD = #{params.idCard}
+                </if>
+                <if test="params.roleName != null">
+                    AND ur.ROLE_NAME = #{params.roleName} LIMIT 1
+                </if>
+            </where>
+        </if>
+    </select>
+    <select id="getUsersVoByParams" resultMap="UserVoResultMap">
+        SELECT u.*,
+        ud.*,
+        urr.*,
+        ur.*,
+        uv.*
+        FROM `USERS` u
+        LEFT JOIN `USER_DETAILS` ud ON u.UID = ud.UID
+        LEFT JOIN `USER_ROLES_RELATION` urr ON u.UID = urr.UID
+        LEFT JOIN `USER_ROLES` ur ON urr.RID = ur.RID
+        LEFT JOIN `USER_VERIFICATION` uv ON u.UID = uv.UID
+        <if test="params == null">
+            LIMIT 0
+        </if>
+        <if test="params != null">
+            <where>
+                <if test="params.uid != null">
+                    AND u.UID = #{params.uid}
+                </if>
+                <if test="params.username != null">
+                    AND u.USERNAME = #{params.username}
+                </if>
+                <if test="params.email != null">
+                    AND ud.EMAIL = #{params.email}
+                </if>
+                <if test="params.phone != null">
+                    AND ud.PHONE = #{params.phone}
+                </if>
+                <if test="params.idCard != null">
+                    AND uv.ID_CARD = #{params.idCard}
+                </if>
+                <if test="params.roleName != null">
+                    AND ur.ROLE_NAME = #{params.roleName}
+                </if>
+            </where>
+        </if>
+    </select>
+</mapper>

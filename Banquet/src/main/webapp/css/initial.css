@@ -1,0 +1,179 @@
+@charset "utf-8";
+
+@import url('https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900');
+
+@font-face {
+    font-family: 'fontNameRegular';
+    src: url('https://www.mca.gov.cn/template/50/2504.woff');
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+    user-select: none;
+    outline: none;
+    caret-color: #fa5151;
+    /* font-size: 10px; */
+    font-weight: initial;
+    font-style: initial;
+    font-family: 'Poppins', '微软雅黑', sans-serif;
+    /* font-family: '微软雅黑', sans-serif; */
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    text-shadow: 0 0 1.15px #a4a09ad9, 0 0 1px #7b7b7bcc, 0 0 0.75px #302f2d45;
+    box-sizing: border-box;
+}
+
+
+*::-ms-reveal {
+    display: none;
+}
+
+
+*::-webkit-scrollbar {
+    display: none;
+}
+
+
+::selection {
+    color: #FFFFFF;
+    background: #fa5151;
+    text-shadow: none;
+}
+
+
+::placeholder {
+    color: #fa5151;
+}
+
+
+:root {
+    --black: #000;
+    --ocean: #007ab8;
+    --blue: #007bff;
+    --primary: #007bff;
+    --hoveerblue: #0091da;
+    --hoverblue: #00a0e9;
+    --aqua: #00c1d5;
+    --dark-blue: #075db3;
+    --dark-green: #07c160;
+    --greene: #0fc70f;
+    --light-blue: #10aeff;
+    --darker-blue: #1485ee;
+    --cyan: #17a2b8;
+    --info: #17a2b8;
+    --indigo: #1d428a;
+    --darkmode: #1e2a31;
+    --teal: #20c997;
+    --bluee: #2196f3;
+    --black-dark: #23241f;
+    --green: #28a745;
+    --success: #28a745;
+    --gray-dark: #343a40;
+    --dark: #343a40;
+    --blue-green: #495770;
+    --gray: #565656;
+    --lighter-blue: #576b95;
+    --lighterr: #5fa134;
+    --pool-green: #607d8b;
+    --light-purple: #6467f0;
+    --indigoo: #6610f2;
+    --secondary: #6c757d;
+    --purple: #6f42c1;
+    --leaf: #78be20;
+    --plum: #7f35b2;
+    --lighter: #91d300;
+    --light-green: #95ec69;
+    --violet: #b145e9;
+    --brown-yellow: #c87d2f;
+    --red-bright: #cc3f68;
+    --red: #dc3545;
+    --danger: #dc3545;
+    --pink: #e83e8c;
+    --bright-red: #ea3a3a;
+    --pink-bright: #ee6eb3;
+    --orange-red: #f44336;
+    --lightmode: #f4f8fa;
+    --lightblue: #f4f8fa;
+    --light-gray: #f7f7f7;
+    --light: #f8f9fa;
+    --cerise-red: #fa5151;
+    --orange: #fd7e14;
+    --red-orange: #ff6a00;
+    --fawn: #ffa117;
+    --yellow: #ffc107;
+    --warning: #ffc107;
+    --dark-orange: #ffc300;
+    --light-orange: #ffebdd;
+    --white: #fff;
+    --btn-image: linear-gradient(0deg, #FFF 0, #F3F5F8 100%);
+    --box-shadow: 8px 8px 20px 0 rgb(55 99 170 / 10%);
+    --border: 1px solid rgba(73, 87, 112, .2);
+}
+
+
+a {
+    color: #333;
+}
+
+a:hover {
+    color: #fa5151;
+}
+
+
+input[type=text],
+input[type=password] {
+    background: var(--btn-image);
+    border: var(--border);
+    border-radius: 4px;
+    height: 35px;
+    padding: 0 10px;
+}
+
+input[type=text]:focus-within,
+input[type=text]:active,
+input[type=password]:focus-within,
+input[type=password]:active,
+textarea:focus-within,
+textarea:active {
+    outline: auto #fa5151;
+    color: #f44336;
+}
+
+input[type=submit],
+input[type=reset],
+input[type=button] {
+    background: var(--btn-image);
+    border: var(--border);
+    border-radius: 4px;
+    padding: 0 15px;
+    height: 35px;
+    cursor: pointer;
+}
+
+input:active,
+.active:active {
+    outline: auto #fa5151;
+    color: #f44336;
+}
+
+
+textarea {
+    border: var(--border);
+    border-radius: 4px;
+    background: var(--btn-image);
+    resize: none;
+    padding: 10px;
+    position: relative;
+    min-height: 60px;
+}
+
+
+select {
+    padding: 0 10px;
+    height: 35px;
+    border: var(--border);
+    border-radius: 4px;
+    background: var(--btn-image);
+}

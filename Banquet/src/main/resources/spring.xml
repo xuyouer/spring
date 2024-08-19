@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+                   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+                   http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!-- 配置创建 spring 容器要扫描的包 -->
+    <context:component-scan base-package="ltd.xiaomizha"/>
+
+    <!-- 加载配置文件 jdbc.properties -->
+    <context:property-placeholder location="classpath:db.properties"/>
+
+    <!-- 1 配置数据源 dataSources -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="${driverClassName}"/>
+        <property name="url" value="${url}"/>
+        <property name="username" value="${user}"/>
+        <property name="password" value="${password}"/>
+        <!-- 数据池中最大连接数和最小连接数-->
+        <property name="maxActive" value="${maxActive}"/>
+        <property name="minIdle" value="${minIdle}"/>
+    </bean>
+
+    <!--配置MyBatis工厂 -->
+    <!-- 2) 获取 SqlSessionFactory 对象，并交由 spring 管理 -->
+    <!--MyBatis工厂构建的SqlSesstionFactory的作用：通常在配置时，需要提供两个参数，一个是数据源，一个是MyBatis的配置文件的构建路径，这样在配置时，Spring的Ioc容器就会在初始化id为sqlSessionFactory的bean时解析MyBatis的配置文件时就会与数据源一同保存在Spring的bean中-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--注入数据源 -->
+        <property name="dataSource" ref="dataSource"/>
+        <!--别名-->
+        <property name="typeAliasesPackage" value="ltd.xiaomizha.bean"/>
+        <!--指定核心配置文件位置 -->
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <!-- 注入 映射文件 mapper
+        给 sqlsessionFactory 的属性 mapperLocation 赋值
+          value="映射文件 XXXmapper.xml 的相对路径"
+         -->
+        <property name="mapperLocations" value="classpath:mapper/*.xml"/>
+
+        <!-- 注意其他配置 -->
+        <property name="plugins">
+            <array>
+                <bean class="com.github.pagehelper.PageInterceptor">
+                    <property name="properties">
+                        <!--使用下面的方式配置参数，一行配置一个 -->
+                        <value>
+                            helperDialect=mysql
+                            reasonable=false
+                        </value>
+                    </property>
+                </bean>
+            </array>
+        </property>
+    </bean>
+
+    <!-- 3 数据访问层 dao创建bean -->
+    <!-- 自动扫描对象关系映射  dao接口生成bean -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!--使用这个-->
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <!-- 指定要自动扫描接口的基础包，实现接口 -->
+        <property name="basePackage" value="ltd.xiaomizha.mapper"/>
+    </bean>
+
+    <!-- 声明式事务 -->
+    <!-- 4.配置事务管理 -->
+    <!-- 4.1 配置事务管理器 -->
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!-- 4.2 配置事务属性 ,需要事务管理器 -->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="get*" read-only="true"/>
+            <tx:method name="find*" read-only="true"/>
+            <tx:method name="login*" read-only="true"/>
+            <tx:method name="logout*" read-only="true"/>
+            <tx:method name="add*" propagation="REQUIRED" read-only="false"/>
+            <tx:method name="save*" propagation="REQUIRED" read-only="false"/>
+            <tx:method name="del*" propagation="REQUIRED" read-only="false"/>
+            <tx:method name="edit*" propagation="REQUIRED" read-only="false"/>
+            <tx:method name="update*" propagation="REQUIRED" read-only="false"/>
+            <tx:method name="transfer*" propagation="REQUIRED" read-only="false"/>
+        </tx:attributes>
+    </tx:advice>
+    <!-- 4.3 配置事务切点，并把事务和切点(业务逻辑层)关联起来 -->
+    <aop:config proxy-target-class="true">
+        <aop:pointcut expression="execution(* ltd.xiaomizha.service.impl.*.*(..))" id="txPointcut"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut"/>
+    </aop:config>
+
+</beans>

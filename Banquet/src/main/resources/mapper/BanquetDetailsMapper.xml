@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ltd.xiaomizha.mapper.BanquetDetailsMapper">
+
+    <resultMap id="BaseResultMap" type="ltd.xiaomizha.bean.BanquetDetails">
+            <id property="id" column="ID" jdbcType="INTEGER"/>
+            <result property="bid" column="BID" jdbcType="INTEGER"/>
+            <result property="banquetStartTime" column="BANQUET_START_TIME" jdbcType="TIMESTAMP"/>
+            <result property="banquetEndTime" column="BANQUET_END_TIME" jdbcType="TIMESTAMP"/>
+            <result property="banquetVenue" column="BANQUET_VENUE" jdbcType="VARCHAR"/>
+            <result property="banquetGuestCount" column="BANQUET_GUEST_COUNT" jdbcType="INTEGER"/>
+            <result property="banquetBudget" column="BANQUET_BUDGET" jdbcType="DECIMAL"/>
+            <result property="banquetNotes" column="BANQUET_NOTES" jdbcType="VARCHAR"/>
+            <result property="banquetIp" column="BANQUET_IP" jdbcType="VARCHAR"/>
+            <result property="createtime" column="CREATETIME" jdbcType="TIMESTAMP"/>
+            <result property="lastmodifytime" column="LASTMODIFYTIME" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID,BID,BANQUET_START_TIME,
+        BANQUET_END_TIME,BANQUET_VENUE,BANQUET_GUEST_COUNT,
+        BANQUET_BUDGET,BANQUET_NOTES,BANQUET_IP,
+        CREATETIME,LASTMODIFYTIME
+    </sql>
+</mapper>

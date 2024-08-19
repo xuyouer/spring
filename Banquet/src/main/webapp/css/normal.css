@@ -1,0 +1,211 @@
+@charset "UTF-8";
+
+.scroll-behavior {
+    scroll-behavior: smooth;
+}
+
+a {
+    position: relative !important;
+    display: flex;
+}
+
+a:hover::after {
+    content: "" !important;
+    position: absolute !important;
+    bottom: -2px !important;
+    left: 0 !important;
+    right: 0 !important;
+    border-bottom: 1px solid currentColor !important;
+}
+
+.external-link::before {
+    content: "\21C1" !important;
+    position: absolute !important;
+    bottom: -3px !important;
+    right: -4px !important;
+    width: 15px !important;
+    height: 5px !important;
+    overflow: hidden !important;
+    font-size: 16px !important;
+    font-weight: bolder !important;
+    display: flex !important;
+    flex-flow: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+
+/* border */
+.border-custom {
+    border: var(--bor) !important;
+}
+
+.border-bottom {
+    border-bottom: 1px solid hsla(0, 0%, 100%, .2) !important;
+}
+
+
+/* icon */
+.icon-normal {
+    width: 30px !important;
+    height: 30px !important;
+    padding: 5px !important;
+    object-fit: cover !important;
+    border-radius: 50% !important;
+}
+
+.icon-30 {
+    width: 30px !important;
+    height: 30px !important;
+}
+
+.icon-35 {
+    width: 35px !important;
+    height: 35px !important;
+}
+
+.icon-40 {
+    width: 40px !important;
+    height: 40px !important;
+}
+
+.icon-50 {
+    width: 50px !important;
+    height: 50px !important;
+}
+
+
+/* background-color */
+.background-color-custom {
+    background-color: var(--bgColor) !important;
+}
+
+.background-color-transparent {
+    background-color: transparent !important;
+}
+
+
+.transform-translateX-0 {
+    transform: translateY(0) !important;
+}
+
+.transform-translateX--50 {
+    transform: translateX(-50%) !important;
+}
+
+.transform-translateX--100 {
+    transform: translateX(-100%) !important;
+}
+
+.transform-translateY-0 {
+    transform: translateY(0) !important;
+}
+
+.transform-translateY--50 {
+    transform: translateY(-50%) !important;
+}
+
+.transform-translateY--100 {
+    transform: translateY(-100%) !important;
+}
+
+.transition-all-03 {
+    transition: all .3s !important;
+}
+
+
+/* position */
+.position-custom {
+    position: var(--pos) !important;
+}
+
+.position-relative {
+    position: relative !important;
+}
+
+.position-absolute {
+    position: absolute !important;
+}
+
+.position-fixed {
+    position: fixed !important;
+}
+
+
+/* display */
+.display-custom {
+    display: var(--dis) !important;
+}
+
+.display-flex {
+    display: flex !important;
+}
+
+.display-grid {
+    display: grid !important;
+}
+
+.display-none {
+    display: none !important;
+}
+
+.display-block {
+    display: block !important;
+}
+
+
+/* flex-flow */
+.flex-flow-custom {
+    flex-flow: var(--ffl) !important;
+}
+
+.flex-flow-row {
+    flex-flow: row !important;
+}
+
+.flex-flow-column {
+    flex-flow: column !important;
+}
+
+
+/* align-items */
+.align-items-custom {
+    align-items: var(--alii) !important;
+}
+
+.align-items-initial {
+    align-items: initial !important;
+}
+
+.align-items-center {
+    align-items: center !important;
+}
+
+
+/* justify-content */
+.justify-content-custom {
+    justify-content: var(--juc) !important;
+}
+
+.justify-content-center {
+    justify-content: center !important;
+}
+
+.justify-content-space-between {
+    justify-content: space-between !important;
+}
+
+
+/* overflow */
+.overflow-custom {
+    overflow: var(--ov) !important;
+}
+
+.overflow-initial {
+    overflow: initial !important;
+}
+
+.overflow-hidden {
+    overflow: hidden !important;
+}
+
