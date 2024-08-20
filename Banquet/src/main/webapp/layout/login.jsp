@@ -41,6 +41,19 @@
         <div id="section">
             <spring:message code="user.login"/>
             ${originalRequest}
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <hr/>
+            <style>
+                a {
+                    display: inline-block;
+                }
+            </style>
+            <c:forEach items="${languages}" var="entry">
+                <a href="${entry.key}/?returnUrl=/users/login">${entry.value}</a>
+            </c:forEach>
         </div>
     </div>
 </div>

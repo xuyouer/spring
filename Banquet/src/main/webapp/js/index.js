@@ -97,7 +97,8 @@ document.addEventListener('DOMContentLoaded', function () {
             // 存储用户的选择到 localStorage
             const selectedLanguage = event.currentTarget.getAttribute('data-language');
             localStorage.setItem('selectedLanguage', selectedLanguage);
-            window.location.href = `/${event.currentTarget.getAttribute("data-language")}`;
+            const currentPath = window.location.pathname;
+            window.location.href = `/${selectedLanguage}/?returnUrl=${currentPath}`;
         }
     }
 

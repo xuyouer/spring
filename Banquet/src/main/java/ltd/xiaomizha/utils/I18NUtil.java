@@ -12,30 +12,9 @@ import javax.servlet.http.HttpSession;
 import java.util.*;
 
 public class I18NUtil {
-    private static final String DEFAULT_LANGUAGE = "zh_CN"; // 默认语言
-    private static final Locale DEFAULT_LOCALE = new Locale("zh", "CN"); // 默认语言环境
 
-
-    /**
-     * 从地区代码创建 Locale 对象
-     *
-     * @param code 地区代码
-     * @return Locale
-     */
-    private static Locale createLocaleFromCode(String code) {
-        switch (code.toLowerCase()) {
-            case "cn":
-                return Locale.SIMPLIFIED_CHINESE;
-            case "tw":
-                return Locale.TRADITIONAL_CHINESE;
-            case "us":
-                return Locale.US;
-            case "ru":
-                return new Locale("ru", "RU");
-            default:
-                throw new IllegalArgumentException("不受支持的语言: " + code);
-        }
-    }
+    private static final String DEFAULT_LANGUAGE = LanguagesUtil.DEFAULT_LANGUAGE;
+    private static final Locale DEFAULT_LOCALE = LanguagesUtil.DEFAULT_LOCALE;
 
     /**
      * 基于会话设置语言环境
@@ -45,12 +24,7 @@ public class I18NUtil {
      * @return Locale
      */
     public static Locale setLocaleInSession(String code, HttpServletRequest request) {
-        Locale locale;
-        try {
-            locale = createLocaleFromCode(code);
-        } catch (IllegalArgumentException e) {
-            locale = DEFAULT_LOCALE;
-        }
+        Locale locale = LanguagesUtil.getLocaleForCode(code);
         saveLocaleInSession(locale, request);
         return locale;
     }
@@ -63,12 +37,7 @@ public class I18NUtil {
      * @return Locale
      */
     public static Locale setLocaleInCookie(String code, HttpServletResponse response) {
-        Locale locale;
-        try {
-            locale = createLocaleFromCode(code);
-        } catch (IllegalArgumentException e) {
-            locale = DEFAULT_LOCALE;
-        }
+        Locale locale = LanguagesUtil.getLocaleForCode(code);
         saveLocaleInCookie(locale, response);
         return locale;
     }
@@ -81,12 +50,7 @@ public class I18NUtil {
      */
     public static Locale getLocaleFromBrowser() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-        Locale[] supportedLocales = {
-                Locale.SIMPLIFIED_CHINESE,
-                Locale.TRADITIONAL_CHINESE,
-                Locale.US,
-                new Locale("ru", "RU"),
-        };
+        Locale[] supportedLocales = LanguagesUtil.getSupportedLanguages().values().toArray(new Locale[0]);
 
         // 获取浏览器首选语言列表
         Enumeration<Locale> preferredLocalesEnum = request.getLocales();

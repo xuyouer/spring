@@ -4,6 +4,7 @@ import ltd.xiaomizha.bean.UserDetails;
 import ltd.xiaomizha.bean.UserRolesRelation;
 import ltd.xiaomizha.bean.Users;
 import ltd.xiaomizha.service.UsersService;
+import ltd.xiaomizha.utils.LanguagesUtil;
 import ltd.xiaomizha.vo.UserRoleVo;
 import ltd.xiaomizha.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/users/")
@@ -51,16 +53,20 @@ public class UsersController {
     public String login(HttpServletRequest request, Model model) {
         String originalRequest = (String) request.getSession().getAttribute("originalRequest");
         model.addAttribute("originalRequest", originalRequest);
+        Map<String, String> languages = LanguagesUtil.getNames(LanguagesUtil.NameType.DISPLAY, true);
+        model.addAttribute("languages", languages);
         return "layout/login";
     }
 
     /**
      * 显示注册页
      *
+     * @param request HttpServletRequest
+     * @param model   Model
      * @return String
      */
     @GetMapping("register")
-    public String register() {
+    public String register(HttpServletRequest request, Model model) {
         return "layout/register";
     }
 
