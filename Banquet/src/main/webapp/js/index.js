@@ -52,7 +52,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 添加事件监听器
     languageContainer.addEventListener('click', toggleLanguageSlide);
-    languageGridItems.forEach(item => item.addEventListener('click', selectLanguageItem));
+    // languageGridItems.forEach(item => item.addEventListener('click', selectLanguageItem));
+    languageGridItems.forEach(item => item.addEventListener('click', handleLanguageSelection));
 
     // 切换语言选择器的显示/隐藏
     function toggleLanguageSlide() {
@@ -83,6 +84,18 @@ document.addEventListener('DOMContentLoaded', function () {
         // document.removeEventListener('click', handleOutsideClick);
     }
 
+    function getCurrentPathname() {
+        return window.location.pathname;
+    }
+
+    // 拼接返回URI
+    function handleLanguageSelection(event) {
+        event.preventDefault();
+        const languageCode = this.querySelector('.language-content').dataset.language;
+        const returnUrl = encodeURIComponent(getCurrentPathname());
+        window.location.href = `lang/${languageCode}/?returnUrl=${returnUrl}`;
+    }
+
     // 选择语言项
     function selectLanguageItem(event) {
         // 更新语言标题
@@ -95,10 +108,10 @@ document.addEventListener('DOMContentLoaded', function () {
         toggleLanguageSlide();
         if (event.currentTarget && event.currentTarget.hasAttribute("data-language")) {
             // 存储用户的选择到 localStorage
-            const selectedLanguage = event.currentTarget.getAttribute('data-language');
-            localStorage.setItem('selectedLanguage', selectedLanguage);
-            const currentPath = window.location.pathname;
-            window.location.href = `/${selectedLanguage}/?returnUrl=${currentPath}`;
+            const languageCode = this.querySelector('.language-content').dataset.language;
+            localStorage.setItem('languageCode', languageCode);
+            const returnUrl = encodeURIComponent(getCurrentPathname());
+            window.location.href = `lang/${languageCode}/?returnUrl=${returnUrl}`;
         }
     }
 
@@ -108,11 +121,11 @@ document.addEventListener('DOMContentLoaded', function () {
     // 获取浏览器默认语言并设置默认选中的语言项
     function setPreferredLanguage() {
         // 从 localStorage 获取用户之前的选择
-        const selectedLanguage = localStorage.getItem('selectedLanguage');
+        const languageCode = localStorage.getItem('languageCode');
         let preferredLanguageParts;
 
-        if (selectedLanguage) {
-            preferredLanguageParts = [selectedLanguage.toLowerCase()];
+        if (languageCode) {
+            preferredLanguageParts = [languageCode.toLowerCase()];
         } else {
             // 获取浏览器默认语言
             const preferredLocale = window.navigator.language || window.navigator.userLanguage;
@@ -134,7 +147,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // 设置默认选中的语言项
-    setPreferredLanguage();
+    // setPreferredLanguage();
 });
 
 

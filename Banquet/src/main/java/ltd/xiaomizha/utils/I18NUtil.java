@@ -42,6 +42,17 @@ public class I18NUtil {
         return locale;
     }
 
+    /**
+     * 获取 Locale 语言环境
+     * Cookie -> Session -> Browser
+     *
+     * @param request HttpServletRequest
+     * @return Locale
+     */
+    public static Locale getLocaleFromRequest(HttpServletRequest request) {
+        return I18NUtil.getLocaleFromCookieWithOptional(request)
+                .orElseGet(() -> I18NUtil.getLocaleFromSessionWithOptional(request).orElse(I18NUtil.getLocaleFromBrowser()));
+    }
 
     /**
      * 从浏览器获取首选语言环境

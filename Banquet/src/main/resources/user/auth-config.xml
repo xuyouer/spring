@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<authConfigs>
+    <!-- 配置示例: -->
+    <!-- <config id="huawei"> -->
+    <!--     <clientId>your-client-id</clientId> -->
+    <!--     <clientSecret>your-client-secret</clientSecret> -->
+    <!--     <redirectUri>http://localhost:8080/oauth/callback/huawei</redirectUri> -->
+    <!-- </config> -->
+    <config id="huawei">
+        <clientId></clientId>
+        <clientSecret></clientSecret>
+        <redirectUri>https://xiaomizha.ltd/oauth/callback/huawei</redirectUri>
+    </config>
+    <config id="gitee">
+        <clientId></clientId>
+        <clientSecret></clientSecret>
+        <redirectUri>https://xiaomizha.ltd/oauth/callback/gitee</redirectUri>
+    </config>
+    <config id="alipay">
+        <clientId></clientId>
+        <clientSecret></clientSecret>
+        <alipayPublicKey></alipayPublicKey>
+        <redirectUri>https://xiaomizha.ltd/oauth/callback/alipay</redirectUri>
+    </config>
+</authConfigs>

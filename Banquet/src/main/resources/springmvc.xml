@@ -62,4 +62,10 @@
         </bean>
     </mvc:interceptors>
 
+
+    <!-- 路由拦截 -->
+    <mvc:interceptors>
+        <bean class="ltd.xiaomizha.interceptor.RouterInterceptor"/>
+    </mvc:interceptors>
+
 </beans>

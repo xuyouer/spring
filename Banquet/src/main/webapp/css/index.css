@@ -149,7 +149,7 @@
     border: 1px solid hsla(0, 0%, 100%, .4);
     display: flex;
     flex-flow: column;
-    min-width: 200px;
+    min-width: 300px;
 }
 
 .header-user-more .more-slide {
@@ -319,6 +319,7 @@
     border: var(--btn-image);
     min-width: 150px;
     min-height: 40px;
+    padding: 0 20px;
 }
 
 .footer-region .language * {
@@ -363,7 +364,7 @@
 .footer-region .language-slide-grid {
     display: grid;
     grid-template-rows: repeat(2, min(40px));
-    grid-template-columns: repeat(3, min(150px));
+    grid-template-columns: repeat(2, min(200px));
 }
 
 .footer-region .language-grid-item {
@@ -371,6 +372,11 @@
     cursor: pointer;
     display: flex;
     flex-flow: row;
+    margin-right: initial;
+}
+
+.footer-region .language-grid-item::after {
+    display: none;
 }
 
 .footer-region .language-content {

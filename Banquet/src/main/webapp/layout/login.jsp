@@ -52,7 +52,7 @@
                 }
             </style>
             <c:forEach items="${languages}" var="entry">
-                <a href="${entry.key}/?returnUrl=/users/login">${entry.value}</a>
+                <a href="lang/${entry.key}/?returnUrl=/users/login">${entry.value}</a>
             </c:forEach>
         </div>
     </div>

@@ -4,7 +4,7 @@ import ltd.xiaomizha.bean.UserDetails;
 import ltd.xiaomizha.bean.UserRolesRelation;
 import ltd.xiaomizha.bean.Users;
 import ltd.xiaomizha.service.UsersService;
-import ltd.xiaomizha.utils.LanguagesUtil;
+import ltd.xiaomizha.utils.UserUtil;
 import ltd.xiaomizha.vo.UserRoleVo;
 import ltd.xiaomizha.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/users/")
@@ -30,16 +30,18 @@ public class UsersController {
     /**
      * 处理任何 GET 请求, 检查登录状态
      *
-     * @param request HttpServletRequest
+     * @param request  HttpServletRequest
+     * @param response HttpServletResponse
      * @return String
      */
-    @GetMapping("*")
-    public String anyGetRequest(HttpServletRequest request) {
-        if (!isUserLoggedIn(request)) {
-            request.getSession().setAttribute("originalRequest", request.getRequestURI());
+    @GetMapping("**")
+    public String anyGetRequest(HttpServletRequest request, HttpServletResponse response) {
+        if (!UserUtil.userLoggedIn(request)) {
+            String originalRequest = request.getRequestURI();
+            UserUtil.setOriginalRequest(request, originalRequest);
             return "redirect:/users/login";
         }
-        return "forward:/";
+        return "redirect:/";
     }
 
     /**
@@ -51,10 +53,8 @@ public class UsersController {
      */
     @GetMapping("login")
     public String login(HttpServletRequest request, Model model) {
-        String originalRequest = (String) request.getSession().getAttribute("originalRequest");
+        String originalRequest = UserUtil.getOriginalRequest(request);
         model.addAttribute("originalRequest", originalRequest);
-        Map<String, String> languages = LanguagesUtil.getNames(LanguagesUtil.NameType.DISPLAY, true);
-        model.addAttribute("languages", languages);
         return "layout/login";
     }
 
@@ -81,23 +81,18 @@ public class UsersController {
      */
     @PostMapping("doLogin")
     public String login(HttpServletRequest request, Model model, String username, String password) {
-        try {
-            Users users = usersService.getUserByUsernameAndPassword(username, password);
-            if (users != null) {
-                model.addAttribute("users", users);
+        Users users = usersService.getUserByUsernameAndPassword(username, password);
+        if (users != null) {
+            model.addAttribute("users", users);
 
-                String originalRequest = (String) request.getSession().getAttribute("originalRequest");
-                if (originalRequest != null) {
-                    request.getSession().removeAttribute("originalRequest");
-                    return "redirect:" + originalRequest;
-                } else {
-                    return "redirect:/";
-                }
+            String originalRequest = UserUtil.getOriginalRequest(request);
+            if (originalRequest != null) {
+                request.getSession().removeAttribute("originalRequest");
+                return "redirect:" + originalRequest;
             } else {
-                return "redirect:/users/login";
+                return "redirect:/";
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else {
             return "redirect:/users/login";
         }
     }
@@ -135,16 +130,5 @@ public class UsersController {
         session.removeAttribute("users");
         status.setComplete();
         return "redirect:/";
-    }
-
-    /**
-     * 检查session中是否存在用户的登录状态标志
-     *
-     * @param request HttpServletRequest
-     * @return boolean
-     */
-    private boolean isUserLoggedIn(HttpServletRequest request) {
-        Object user = request.getSession().getAttribute("users");
-        return user != null;
     }
 }

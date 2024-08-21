@@ -3,7 +3,10 @@ package ltd.xiaomizha.utils;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class LanguagesUtil {
+public final class LanguagesUtil {
+
+    private LanguagesUtil() {
+    }
 
     private static final Map<String, Locale> SUPPORTED_LANGUAGES = new HashMap<>();
 
@@ -19,6 +22,16 @@ public class LanguagesUtil {
 
     public static Locale getLocaleForCode(String code) {
         return SUPPORTED_LANGUAGES.getOrDefault(code.toLowerCase(), DEFAULT_LOCALE);
+    }
+
+    public static String getCodeForLocale(Locale locale) {
+        return SUPPORTED_LANGUAGES
+                .entrySet()
+                .stream()
+                .filter(entry -> entry.getValue().equals(locale))
+                .map(Map.Entry::getKey)
+                .findFirst()
+                .orElse(null);
     }
 
     public static Set<String> getSupportedCodes() {

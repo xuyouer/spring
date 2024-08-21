@@ -12,7 +12,7 @@ import java.util.Locale;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/lang/")
 @SessionAttributes({""})
 public class LanguageController {
 
@@ -24,9 +24,9 @@ public class LanguageController {
      * @param request   HttpServletRequest
      * @param response  HttpServletResponse
      */
-    @GetMapping("/{lang}/")
+    @GetMapping("{lang}/")
     public void switchLanguage(@PathVariable(value = "lang", required = false) String lang,
-                               @RequestParam("returnUrl") String returnUrl,
+                               @RequestParam(value = "returnUrl", defaultValue = "/") String returnUrl,
                                HttpServletRequest request,
                                HttpServletResponse response) {
         Locale locale = I18NUtil.setLocaleInSession(lang, request);
